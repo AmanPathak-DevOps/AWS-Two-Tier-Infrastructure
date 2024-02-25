@@ -1,4 +1,9 @@
-properties([parameters(string(defaultValue: 'Terraform-Infrastructure-Deployment', name: 'Pipeline'), choice(choices: ['plan', 'apply', 'destroy'], name: 'Terraform_Action')])
+properties([
+    parameters([
+        string(defaultValue: 'Terraform-Infrastructure-Deployment', name: 'Pipeline'),
+        choice(choices: ['plan', 'apply', 'destroy'], name: 'Terraform_Action')
+    ])
+])
 pipeline {
     agent any
     stages {
@@ -23,8 +28,6 @@ pipeline {
             steps {
                 echo "Pipeline Name ${params.Pipeline}"
                 withAWS(credentials: 'aws-creds', region: 'us-east-1') {
-                sh 'pwd'
-                sh 'ls'
                 sh 'terraform init'
                 }
             }
