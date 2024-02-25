@@ -1,6 +1,6 @@
 # Role for EC2 Instance
 resource "aws_iam_role" "role-for-ec2" {
-  name               = var.role-name
+  name               = var.role_name
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -18,15 +18,14 @@ resource "aws_iam_role" "role-for-ec2" {
 EOF
 
   tags = {
-    Name = var.role-name
+    Name = var.role_name
     env  = var.env
   }
 }
 
 # Policy for EC2 Instance to access S3 bucket and SSMInstanceCore Access
-
 resource "aws_iam_role_policy" "role-policy-for-ec2" {
-  name = var.policy-name
+  name = var.policy_name
   role = aws_iam_role.role-for-ec2.id
 
   policy = jsonencode({

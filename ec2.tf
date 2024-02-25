@@ -1,3 +1,4 @@
+# EC2 Instance Creating with 100GB of volume
 resource "aws_instance" "application-instance" {
   ami                    = data.aws_ami.ami.id
   instance_type          = var.instance_size
@@ -7,7 +8,7 @@ resource "aws_instance" "application-instance" {
   iam_instance_profile   = aws_iam_instance_profile.instance-profile.name
 
   root_block_device {
-    volume_size = 100
+    volume_size = var.volume_size
     encrypted   = true
   }
 
@@ -19,6 +20,7 @@ resource "aws_instance" "application-instance" {
   }
 }
 
+# Creating Elastic IP and attaching with Application Server
 resource "aws_eip" "eip" {
   domain   = "vpc"
   instance = aws_instance.application-instance.id

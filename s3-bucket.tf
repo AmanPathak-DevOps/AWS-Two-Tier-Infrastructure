@@ -1,12 +1,15 @@
+# Creating S3 bucket
 resource "aws_s3_bucket" "s3" {
   bucket = var.bucket_name
 
   tags = {
+    Name        = var.bucket_name
     Environment = var.env
   }
 
 }
 
+# Creating S3 Bucket Public Access block
 resource "aws_s3_bucket_public_access_block" "bucket-pab" {
   bucket = aws_s3_bucket.s3.id
 
@@ -16,6 +19,7 @@ resource "aws_s3_bucket_public_access_block" "bucket-pab" {
   restrict_public_buckets = false
 }
 
+# Creating Bucket Policy with GetObject and PutObject only
 resource "aws_s3_bucket_policy" "bucket-policy" {
   bucket = aws_s3_bucket.s3.id
 
@@ -27,7 +31,7 @@ resource "aws_s3_bucket_policy" "bucket-policy" {
         Sid       = "IPAllow"
         Effect    = "Allow"
         Principal = "*"
-        Action    = ["s3:GetObject", "s3:DeleteObject", "s3:PutObject"]
+        Action    = ["s3:GetObject", "s3:PutObject"]
         Resource  = "${aws_s3_bucket.s3.arn}/*"
       },
     ]

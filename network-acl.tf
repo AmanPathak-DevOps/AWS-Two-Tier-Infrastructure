@@ -1,3 +1,4 @@
+# Creating NACL and allowing 80, 443 and 22 port for specific IPs and denying other IPs
 resource "aws_network_acl" "network-acl-pub-sub" {
   vpc_id = aws_vpc.vpc.id
 
@@ -29,12 +30,12 @@ resource "aws_network_acl" "network-acl-pub-sub" {
   }
 
   ingress {
-    from_port = 0
-    to_port = 0
-    protocol = "tcp"
+    from_port  = 0
+    to_port    = 0
+    protocol   = "tcp"
     cidr_block = "0.0.0.0/0"
-    rule_no = 400
-    action = "deny"
+    rule_no    = 400
+    action     = "deny"
   }
 
   egress {
@@ -52,11 +53,13 @@ resource "aws_network_acl" "network-acl-pub-sub" {
   }
 }
 
+# Attaching the NACL with Public Subnet
 resource "aws_network_acl_association" "nacl-association-public" {
   subnet_id      = aws_subnet.public-subnet1.id
   network_acl_id = aws_network_acl.network-acl-pub-sub.id
 }
 
+# Creating NACL and allowing 3306 port for Application Server Only and denying other IPs
 resource "aws_network_acl" "network-acl-pri-sub" {
   vpc_id = aws_vpc.vpc.id
 
@@ -70,12 +73,12 @@ resource "aws_network_acl" "network-acl-pri-sub" {
   }
 
   ingress {
-    from_port = 0
-    to_port = 0
-    protocol = "tcp"
+    from_port  = 0
+    to_port    = 0
+    protocol   = "tcp"
     cidr_block = "0.0.0.0/0"
-    rule_no = 200
-    action = "deny"
+    rule_no    = 200
+    action     = "deny"
   }
 
   egress {
@@ -92,12 +95,13 @@ resource "aws_network_acl" "network-acl-pri-sub" {
   }
 }
 
-
+# Attaching the NACL with Private Subnet1
 resource "aws_network_acl_association" "nacl-association-private" {
   subnet_id      = aws_subnet.private-subnet1.id
   network_acl_id = aws_network_acl.network-acl-pri-sub.id
 }
 
+# Attaching the NACL with Private Subnet2
 resource "aws_network_acl_association" "nacl-association-private2" {
   network_acl_id = aws_network_acl.network-acl-pri-sub.id
   subnet_id      = aws_subnet.private-subnet2.id

@@ -1,3 +1,4 @@
+# Creating Security Group and allowing Port 80, 443 for everyone and Port 22 for my IP only
 resource "aws_security_group" "sg1" {
   vpc_id      = aws_vpc.vpc.id
   description = "Allowing SSH, HTTP and HTTPS"
@@ -38,7 +39,8 @@ resource "aws_security_group" "sg1" {
   }
 
   tags = {
-    Name = var.sg-name
+    Name        = var.sg_name
+    Environment = var.env
   }
 
 }
@@ -66,7 +68,7 @@ resource "aws_security_group" "db-sg" {
   }
 
   tags = {
-    Name = var.db-sg-name
+    Name        = var.db_sg_name
+    Environment = var.env
   }
-
 }

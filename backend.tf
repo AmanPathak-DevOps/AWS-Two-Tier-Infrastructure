@@ -1,3 +1,4 @@
+# Configuring Backend state file which is storing the in the bucket and State locking file enabling and configured AWS provider
 terraform {
   backend "s3" {
     bucket         = "my-ews-baket1"
