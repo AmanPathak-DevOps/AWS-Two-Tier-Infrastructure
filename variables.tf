@@ -24,5 +24,3 @@ variable "rds-name" {}
 variable "role-name" {}
 variable "policy-name" {}
 variable "instance-profile-name" {}
-# variable "" {}
-# variable "" {}
